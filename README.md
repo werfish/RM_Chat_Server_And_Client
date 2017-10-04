@@ -4,9 +4,9 @@ The goal of the project is to create a multithreaded, multiclient and statefull 
 
 In the future the application should provide multiple chatrooms support, chatroom creation and deletion and instant messaging and all communication capabilities should be with IBM Watson based ad hoc message translation Engine.
 ## 2 Requirements
-### 2.1 Version 1.0
-2.1.1 User
-2.1.2 Admin
+## 2.1 Version 1.0
+### 2.1.1 User
+### 2.1.2 Admin
 ## 3 Custom "Message" protocol Protocol
 ### 3.1 The structure of the Message
 ### 3.2 Message Types
