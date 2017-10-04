@@ -142,6 +142,13 @@ public class ConnectionHandler implements Runnable {
 		}
 		return null;
 	}
+	
+	public static Message checkDataQue(){
+		if(!dataQue.isEmpty()){
+			return takeOffQue(dataQue);
+		}
+		return null;
+	}
 
 
 }
