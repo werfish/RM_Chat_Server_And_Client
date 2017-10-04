@@ -189,6 +189,13 @@ public class ChatWindow extends JPanel implements ActionListener {
 			Message userDataQuery;
 			userDataQuery = new Message(Commands.GetUsers.toString(),user,MessageType.COMMAND);
 			ConnectionHandler.sendRequest(userDataQuery);
+			
+			//getting the answer
+			Message queryResponse = null;
+			while(queryResponse == null){
+				queryResponse = ConnectionHandler.;
+			}
+			System.out.println("Message amount on the server: " + amountResponse.getContent());
 		}
 		
 	}
