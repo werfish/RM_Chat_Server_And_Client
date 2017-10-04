@@ -32,11 +32,16 @@ public class ChatWindow extends JPanel implements ActionListener {
 */
 	
 	//GUI Variables
+	//It should now display all elements, remember about changing the name of rightPanel to left and the other way around in eclipse
 	final JPanel chatPanel = new JPanel();
+	final JPanel rightPanel = new JPanel();
+	final JPanel leftPanel = new JPanel();
+	final JPanel usersListPanel = new JPanel();
 	final JTextArea msgArea = new JTextArea(10,25);
 
 	final JTextField inputField = new JTextField(25);
 	
+	final JLabel usersLabel = new JLabel("Active Users");
 	final JButton logoutButton = new JButton("Accept");
 	final JButton sendButton = new JButton("Send");
 	
@@ -54,7 +59,10 @@ public class ChatWindow extends JPanel implements ActionListener {
 	public ChatWindow(User user) {
 		this.user = user;
 		add(chatPanel);
+		rightPanel.setLayout(new BorderLayout());
+		leftPanel.setLayout(new BoxLayout());
 		chatPanel.setLayout(new BorderLayout());
+		usersListPanel.setLayout(new BoxLayout());
 		setPanel();
 		setActionListeners();
 		msgListener = null;
@@ -62,10 +70,16 @@ public class ChatWindow extends JPanel implements ActionListener {
 	}
 	
 	private void setPanel(){
-		chatPanel.add(new JScrollPane(msgArea),BorderLayout.NORTH);
+		chatPanel.add(rightPanel,BorderLayout.WEST);
+		chatPanel.add(leftPanel,BorderLayout.EAST);
+		rightPanel.add(new JScrollPane(msgArea),BorderLayout.NORTH);
 		//Space for formating buttons later on
-		chatPanel.add(inputField,BorderLayout.CENTER);
-		chatPanel.add(sendButton,BorderLayout.SOUTH);			
+		rightPanel.add(inputField,BorderLayout.CENTER);
+		rightPanel.add(sendButton,BorderLayout.SOUTH);
+		leftPanel.add(logoutButton);
+		leftPanel.add(usersLabel);
+		leftPanel.add(usersListPanel);
+		
 	}
 	
 	private void setActionListeners() {
