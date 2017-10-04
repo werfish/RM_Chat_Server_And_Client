@@ -2,7 +2,7 @@
 1 Overview of the project
 The goal of the project is to create a multithreaded, multiclient and statefull chat server with accompanying client which lets multiple users exchange chat messeges between each other through a network with encryption capabilities. The server should provide a way to connect to commercial SQL databases, but provide a custom storage solution if none is selected.  Server should provide configuration cababilities in terms of encryption, major and minor server settings and a storage solution. Some configuration should be possible during the server operation.
 
-In the future the application should provide multiple chatrooms support chatroom with creation and deletion and instant messaging capabilities with IBM Watson based ad hoc message translation.
+In the future the application should provide multiple chatrooms support, chatroom creation and deletion and instant messaging and all communication capabilities should be with IBM Watson based ad hoc message translation Engine.
 2 Requirements
 2.1 Version 1.0
 2.1.1 User
@@ -20,3 +20,4 @@ In the future the application should provide multiple chatrooms support chatroom
 6.2 Custom Storage
 6.3 Oracle Connectivity
 6.4 MySql Connectivity
+6.5 MongoDB Connectivity
