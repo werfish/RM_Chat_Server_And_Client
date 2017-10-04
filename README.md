@@ -6,7 +6,7 @@ In the future the application should provide multiple chatrooms support, chatroo
 ## 2 Requirements
 ### 2.1.1 User
 ### 2.1.2 Admin
-## 3 Custom "Message" protocol Protocol
+## 3 Custom "Message" Protocol
 ### 3.1 The structure of the Message
 ### 3.2 Message Types
 ### 3.3 Command type and different commands
