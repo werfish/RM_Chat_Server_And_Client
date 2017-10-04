@@ -49,6 +49,23 @@ public class Users {
 			return false;
 		}
 		
+		public boolean compareUsersLists(Users users) {
+			boolean amountTheSame; //if amount is not the same then return false straight away
+			
+			amountTheSame = usersList.size() == users.size(); //if this is false then the function returns false
+			
+			if(!amountTheSame){
+				return false;
+			}else{
+				for(User item: usersList){ 
+					if(!users.isUser(item)){ //if any of the users from usersList is not present on the parameter users list return false
+						return false;
+					}
+				}
+			}
+			return true; //only if all the validation and traos are passed
+		}
+		
 		public Message toMessage() {
 			Message listMsg;
 			String content = "";
