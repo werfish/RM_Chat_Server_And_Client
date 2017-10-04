@@ -45,7 +45,7 @@ public class ConnectionHandler implements Runnable {
 					System.out.println("What about the conitnue statement?");
 					Message toServer;
 					toServer = takeOffQue(serverQue);
-					System.out.println(toServer.getContent() + " " + toServer.getType().toString());
+					System.out.println(toServer.getContent() + " " + toServer.getUser().getUsername() + " " + toServer.getType().toString());
 					conn.sendMessage(toServer);
 					if(toServer.getType() == MessageType.LOGOUT) {
 						System.out.println("Connection handler Closing");
