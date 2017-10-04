@@ -65,6 +65,8 @@ public class ConnectionHandler implements Runnable {
 						addToQue(answer,logRegQue);
 					}else if(answer.getType() == MessageType.LOGOUT){
 						addToQue(answer,errorQue);
+					}else if(answer.getType() == MessageType.DATA){
+						addToQue(answer,dataQue);
 					}else if(answer.getType() == MessageType.MESSAGE){
 						addToQue(answer,msgQue);
 						int msgCount = Integer.parseInt(answer.getContent());

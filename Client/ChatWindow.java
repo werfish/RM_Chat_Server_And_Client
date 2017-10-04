@@ -39,9 +39,9 @@ public class ChatWindow extends JPanel implements ActionListener {
 	final JPanel leftPanel = new JPanel();
 	final JPanel rightPanel = new JPanel();
 	final JPanel usersListPanel = new JPanel();
-	final JTextArea msgArea = new JTextArea(10,25);
+	final JTextArea msgArea = new JTextArea(15,30);
 
-	final JTextField inputField = new JTextField(25);
+	final JTextField inputField = new JTextField(30);
 	
 	final JLabel usersLabel = new JLabel("Active Users");
 	final JButton logoutButton = new JButton("Accept");
@@ -57,6 +57,9 @@ public class ChatWindow extends JPanel implements ActionListener {
 	Timer msgListenerTimer;
 	final int msgSpeed = 500;
 	final int msgPause = 1000;
+	UsersListener usrListener;
+	final int usrSpeed = 500;
+	final int userPause = 1000;
 	
 	public ChatWindow(User user) {
 		this.user = user;
@@ -169,6 +172,23 @@ public class ChatWindow extends JPanel implements ActionListener {
 				}
 				isDone = true;
 			}
+		}
+		
+	}
+	
+	private class UsersListener implements Runnable{
+		private boolean isDone;
+		
+		public UsersListener() {
+			isDone = false;
+		}
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			isDone = false;
+			Message userDataQuery;
+			userDataQuery = new Message(Commands.GetUsers.toString(),user,MessageType.COMMAND);
+			ConnectionHandler.sendRequest(userDataQuery);
 		}
 		
 	}
