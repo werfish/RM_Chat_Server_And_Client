@@ -58,8 +58,9 @@ public class ChatWindow extends JPanel implements ActionListener {
 	final int msgSpeed = 500;
 	final int msgPause = 1000;
 	UsersListener usrListener;
-	final int usrSpeed = 500;
-	final int userPause = 1000;
+	Timer usrListenerTimer;
+	final int usrSpeed = 1000;
+	final int usrPause = 1500;
 	
 	public ChatWindow(User user) {
 		this.user = user;
@@ -71,7 +72,9 @@ public class ChatWindow extends JPanel implements ActionListener {
 		setPanel();
 		setActionListeners();
 		msgListener = null;
+		usrListener = null;
 		addMessageListenerTimer();
+		addUsersListenerTimer();
 	}
 	
 	private void setPanel(){
@@ -97,16 +100,39 @@ public class ChatWindow extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		if(e.getSource() == sendButton){
 			String message = inputField.getText();
-			Message outgoingMsg;
-			outgoingMsg = new Message(message,user,MessageType.MESSAGE);
-			inputField.setText("");
-			String msgString;
-			Date date = new Date();
-			msgString = "[" + outgoingMsg.getUsername() + "]@[" + dateFormat.format(date) + "] :" + outgoingMsg.getContent() + "\n";
-			msgArea.append(msgString);
-			ConnectionHandler.sendRequest(outgoingMsg);
+			if(!message.equals("")){
+				Message outgoingMsg;
+				outgoingMsg = new Message(message,user,MessageType.MESSAGE);
+				inputField.setText("");
+				String msgString;
+				Date date = new Date();
+				msgString = "[" + outgoingMsg.getUsername() + "]@[" + dateFormat.format(date) + "] :" + outgoingMsg.getContent() + "\n";
+				msgArea.append(msgString);
+				ConnectionHandler.sendRequest(outgoingMsg);
+			}
 		}
 		
+	}
+	
+	private void addUsersListenerTimer() {
+		usrListenerTimer = new Timer(usrSpeed, new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				runUserListener();
+			}
+			
+		});
+		msgListenerTimer.setInitialDelay(usrPause);
+		msgListenerTimer.start(); 
+	}
+	
+	private void runUserListener() {
+		if(usrListener == null || usrListener.isDone == true){
+			usrListener = new UsersListener();
+			SwingUtilities.invokeLater(usrListener);
+		}
 	}
 	
 	private void addMessageListenerTimer() {
@@ -193,9 +219,11 @@ public class ChatWindow extends JPanel implements ActionListener {
 			//getting the answer
 			Message queryResponse = null;
 			while(queryResponse == null){
-				queryResponse = ConnectionHandler.;
+				queryResponse = ConnectionHandler.checkDataQue();
 			}
-			System.out.println("Message amount on the server: " + amountResponse.getContent());
+			System.out.println("Message amount on the server: " + queryResponse.getContent());
+			
+			
 		}
 		
 	}
