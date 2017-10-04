@@ -9,7 +9,7 @@ In the future the application should provide multiple chatrooms support, chatroo
 ## 3 Custom "Message" Protocol
 ### 3.1 The structure of the Message
 ### 3.2 Message Types
-### 3.3 Command type and different commands
+### 3.3 Command MessageType and the commands
 ### 3.4 Flow of the Protocol on the Server Side
 ### 3.5 Flow of the Protocol on the Client Side
 ## 4 Server Architecture
