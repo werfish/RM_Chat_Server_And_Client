@@ -17,6 +17,7 @@ import Common.User;
 import Common.Users;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,6 +65,8 @@ public class ChatWindow extends JPanel implements ActionListener {
 	
 	public ChatWindow(User user) {
 		this.user = user;
+		users = null;
+		msgArea.setEditable(false);
 		add(chatPanel);
 		leftPanel.setLayout(new BorderLayout());
 		rightPanel.setLayout(new BoxLayout(rightPanel,BoxLayout.PAGE_AXIS));
@@ -213,7 +216,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 			// TODO Auto-generated method stub
 			isDone = false;
 			Message userDataQuery;
-			userDataQuery = new Message(Commands.GetUsers.toString(),user,MessageType.COMMAND);
+			userDataQuery = new Message(Commands.GetLoggedInUsers.toString(),user,MessageType.COMMAND);
 			ConnectionHandler.sendRequest(userDataQuery);
 			
 			//getting the answer
@@ -221,8 +224,47 @@ public class ChatWindow extends JPanel implements ActionListener {
 			while(queryResponse == null){
 				queryResponse = ConnectionHandler.checkDataQue();
 			}
-			System.out.println("Message amount on the server: " + queryResponse.getContent());
+			System.out.println("Users LOGGED IN: " + queryResponse.getContent());
+			
+			//Filling the users variable if Users = null
+			//this.Users is not equal null then compare if something changed
+			//if it did refresh the users Panel
+			if(users == null){
+				users = new Users(queryResponse);
+				//fill usersPanel with users
+				fillUsersPanel(users);
+			}else if(!users.compareUsersLists(new Users(queryResponse))){ //only replace the user list and refresh panel if there is a change on the list
+				//remove all users labels from panel
+				removeUsersFromPanel();
+				//fill usersPanel with users
+				fillUsersPanel(new Users(queryResponse));
+			}
+						
+			//set isDone to true so the timer knows the task is finished
 			isDone = true;	
+		}
+		
+		private void fillUsersPanel(Users users){
+			for(int i = 0; i < users.size();i++){
+				User usr = users.getUser(i);
+				if(!usr.getUsername().equals(user.getUsername())){
+					usersListPanel.add(new JLabel(usr.getUsername()));
+				}
+			}
+			//if there is no components just add none
+			Component[] components = usersListPanel.getComponents();
+			if(components.length == 0){
+				usersListPanel.add(new JLabel("None"));
+			}
+			
+			usersListPanel.revalidate();
+			usersListPanel.repaint();
+		}
+		
+		private void removeUsersFromPanel(){
+			usersListPanel.removeAll();
+			usersListPanel.revalidate();
+			usersListPanel.repaint();
 		}
 		
 	}

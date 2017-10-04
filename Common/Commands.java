@@ -2,5 +2,5 @@ package Common;
 
 public enum Commands {
 
-	GetUsers, ClientMsgAmount, ClientMsgFlush
+	GetUsers, ClientMsgAmount, ClientMsgFlush, GetLoggedInUsers
 }

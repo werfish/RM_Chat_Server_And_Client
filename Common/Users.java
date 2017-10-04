@@ -74,9 +74,9 @@ public class Users {
 				if(i == 0){
 					content = item.getUsername();
 				}else{
-					content = content + " " +item.getUsername();
-					i++;
+					content = content + " " + item.getUsername();
 				}
+				i++;
 			}
 			listMsg = new Message(content,new User("Server"),MessageType.DATA);
 			return listMsg;
