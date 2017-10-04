@@ -20,3 +20,4 @@ In the future the application should provide multiple chatrooms support, chatroo
 ### 6.3 Oracle Connectivity
 ### 6.4 MySql Connectivity
 ### 6.5 MongoDB Connectivity
+## 7 Encryption and Security
