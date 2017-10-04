@@ -73,8 +73,8 @@ public class ChatWindow extends JPanel implements ActionListener {
 		setActionListeners();
 		msgListener = null;
 		usrListener = null;
-		addMessageListenerTimer();
 		addUsersListenerTimer();
+		addMessageListenerTimer();
 	}
 	
 	private void setPanel(){
@@ -124,8 +124,8 @@ public class ChatWindow extends JPanel implements ActionListener {
 			}
 			
 		});
-		msgListenerTimer.setInitialDelay(usrPause);
-		msgListenerTimer.start(); 
+		usrListenerTimer.setInitialDelay(usrPause);
+		usrListenerTimer.start(); 
 	}
 	
 	private void runUserListener() {
@@ -222,8 +222,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 				queryResponse = ConnectionHandler.checkDataQue();
 			}
 			System.out.println("Message amount on the server: " + queryResponse.getContent());
-			
-			
+			isDone = true;	
 		}
 		
 	}
