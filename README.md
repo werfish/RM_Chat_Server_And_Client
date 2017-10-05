@@ -6,12 +6,13 @@ In the future the application should provide multiple chatrooms support, chatroo
 ## 2 Requirements
 ### 2.1.1 User
 Users will be interacting with the chat application client. The chat application client should provide the user with:
-*Loging and Logout in capability
-*Registration possibility
-*Error notification
-*Connection status
-*Possibility of sending and receiving messeges while logged in
-*Display of all the participating users
+* Loging and Logout in capability
+* Registration possibility
+* Error notification
+* Connection status
+* Possibility of sending and receiving messeges while logged in
+* Display of all connected users
+
 User of the application should be presented with a login screen containing space for inputing their login name and password, Login button and Register button, in case the user does not have an account in the app. The login screen should contain validation checking if the username exists, and if the password has been inputted correctly. User should be notified in the case of an error in the login process or if the server is down. In case of the server being down  There should be 
 In case the user does not have an acc
 ### 2.1.2 Admin
