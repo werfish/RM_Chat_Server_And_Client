@@ -45,7 +45,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 	final JTextField inputField = new JTextField(30);
 	
 	final JLabel usersLabel = new JLabel("Active Users");
-	final JButton logoutButton = new JButton("Accept");
+	final JButton logoutButton = new JButton("Log Out");
 	final JButton sendButton = new JButton("Send");
 	
 	//Data Variables
@@ -96,6 +96,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 	private void setActionListeners() {
 		// TODO Auto-generated method stub
 		sendButton.addActionListener(this);
+		logoutButton.addActionListener(this);
 	}
 
 	@Override
@@ -113,8 +114,30 @@ public class ChatWindow extends JPanel implements ActionListener {
 				msgArea.append(msgString);
 				ConnectionHandler.sendRequest(outgoingMsg);
 			}
+		}else if(e.getSource() == logoutButton){
+			// close all the timers
+			stopTimers();
+			//reset the data and msgQues
+			while(!msgListener.isDone && !usrListener.isDone){
+				
+			}
+			//after the timers are closed then send the logout message to server
+			ConnectionHandler.sendRequest(new Message("content",new User("App"),MessageType.LOGOUT));
+			System.out.println("Client is logging out..............");
+			ConnectionHandler.resetChatQueues();
+			msgListener = null;
+			usrListener = null;
+			
+			//open the login screen
+			CardPanel login = (CardPanel) getParent();
+			login.card.show(login, "login");
 		}
 		
+	}
+	
+	private void stopTimers() {
+		msgListenerTimer.stop(); //the stop means not sending action to event listener so should be safe to stop
+		usrListenerTimer.stop();
 	}
 	
 	private void addUsersListenerTimer() {

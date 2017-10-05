@@ -87,6 +87,19 @@ public class ConnectionHandler implements Runnable {
 			
 		}
 	}
+	
+	public static void resetChatQueues() {
+		if(!msgQue.isEmpty()){
+			for(int i = 0; i < msgQue.size();i++){
+				takeOffQue(msgQue);
+			}
+		}
+		if(!dataQue.isEmpty()){
+			for(int i = 0; i < dataQue.size();i++){
+				takeOffQue(dataQue);
+			}
+		}
+	}
 
 	
 	private static void addToQue(Message msg, BlockingQueue<Message> que){

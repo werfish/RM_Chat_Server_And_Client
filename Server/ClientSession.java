@@ -89,6 +89,9 @@ public class ClientSession implements Runnable {
 					}else if(receivedMessage.getType() == MessageType.LOGOUT){
 						System.out.println("LOGOUZT PROCEDURE PLEASE LOOK HERE!@#!@!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 						logout();
+					}else if(receivedMessage.getType() == MessageType.DISCONNECT){
+						System.out.println("DISCONNECT PROCEDURE LOOK HERE!!!!!!!!!!!!!!!!!!!!");
+						disconnect();
 						break;
 					}
 					
@@ -104,11 +107,8 @@ public class ClientSession implements Runnable {
 		}
 	}
 	
-	private void logout(){
-		LOGGED_IN = false;
-		if(!(msgBuffer == null)){
-			msgBuffer = null;
-		}//Close streams
+	private void disconnect() {
+		//Close streams
 		try {
 			input.close();
 			output.close();
@@ -116,11 +116,19 @@ public class ClientSession implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		conn.closeConnection();
+	}
+	
+	private void logout(){
+		LOGGED_IN = false;
+		if(!(msgBuffer == null)){
+			msgBuffer = null;
+		}
 		//Delete the use from users list
 		usersList.removeUser(new User(this.CONNECTED_USER));
+		CONNECTED_USER = null;
 		//remove the user from the connections list
-		conn.closeConnection();
-		connections.removeConnection(this.conn);
+		conn.removeUser();
 	}
 	
 	private List<Message> getMsgAmount() {

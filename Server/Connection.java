@@ -11,6 +11,8 @@ import java.util.concurrent.BlockingQueue;
 
 import Common.Message;
 
+
+//THERE WILL BE A CONCURRENCY PROBLEM HERE!!!!!!
 public class Connection {
 	Socket socket;
 	String login;
