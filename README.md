@@ -19,7 +19,14 @@ User of the application should be presented with a login screen containing space
 
 **Register**
 
-In the use case when the user does not have an account, after clicking the Register button on the main screen, user should be taken into a registration screen.
+In the use case when the user does not have an account, after clicking the Register button on the main screen, user should be taken into a registration screen. The registration screen should present the user with apriopriately described input fields required for the registration process and buttons to register and to cancel registration. Information required from the user to register are:
+* name
+* surname
+* username
+* password
+
+
+
 ### 2.1.2 Admin
 ## 3 Custom "Message" Protocol
 ### 3.1 The structure of the Message
