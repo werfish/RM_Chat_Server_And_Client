@@ -14,9 +14,11 @@ Users will be interacting with the chat application client. The chat application
 * Display of all connected users
 
 **Login**
+
 User of the application should be presented with a login screen containing space for inputing their login name and password, Login button and Register button, in case the user does not have an account in the app. The login screen should contain validation checking if the username exists, and if the password has been inputted correctly. User should be notified in the case of an error in the login process or if the server is down. In case of a server being down there should be a constant notification showing the connection status as well as actions performed by the client. If the user chooses to login and all the login details are correct, the user should be presented with the chat application screen. If the user chooses to register, there should be a register button present which takes the user into the register.
 
 **Register**
+
 In the use case when the user does not have an account, after clicking the Register button on the main screen, user should be taken into a registration screen.
 ### 2.1.2 Admin
 ## 3 Custom "Message" Protocol
