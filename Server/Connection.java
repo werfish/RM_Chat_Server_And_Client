@@ -100,7 +100,9 @@ public class Connection {
 	}
 	
 	public void removeUser(){
+		System.out.println("Pre decomission que");
 		decomisionQue();
+		System.out.println("Post decomission que");
 		this.login = null;
 	}
 	

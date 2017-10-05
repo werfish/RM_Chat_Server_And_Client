@@ -21,6 +21,7 @@ public class ConnectionHandler implements Runnable {
 
 	
 	private boolean CONNECTION_OPEN = true;
+	private static boolean LOGGED_IN = false;
 	private Connection conn;
 	
 	public ConnectionHandler(){
@@ -47,13 +48,16 @@ public class ConnectionHandler implements Runnable {
 					toServer = takeOffQue(serverQue);
 					System.out.println(toServer.getContent() + " " + toServer.getUser().getUsername() + " " + toServer.getType().toString());
 					conn.sendMessage(toServer);
-					if(toServer.getType() == MessageType.LOGOUT) {
+					if(toServer.getType() == MessageType.DISCONNECT) {
 						System.out.println("Connection handler Closing");
 						closeConnection();
 						break;
 					}else if(toServer.getType() == MessageType.MESSAGE){
 						System.out.println("Message Sent for ditribition, don't wait for answer");
 						continue;
+					}else if(toServer.getType() == MessageType.LOGOUT) {
+						LOGGED_IN = false;
+						continue; //this type of message does not need an answer
 					}
 					System.out.println("Connection handler Sent Message");
 					
@@ -63,6 +67,9 @@ public class ConnectionHandler implements Runnable {
 					//now handle the protocol by assigning answer to the proper channel
 					if(answer.getType() == MessageType.REGISTER || answer.getType() == MessageType.LOGIN){
 						addToQue(answer,logRegQue);
+						if(answer.getType() == MessageType.LOGIN && answer.getContent().contains("SUCCESS")) {
+							LOGGED_IN = true;
+						}
 					}else if(answer.getType() == MessageType.LOGOUT){
 						addToQue(answer,errorQue);
 					}else if(answer.getType() == MessageType.DATA){
@@ -99,6 +106,11 @@ public class ConnectionHandler implements Runnable {
 				takeOffQue(dataQue);
 			}
 		}
+	}
+	
+	public static boolean isLoggedIn() {
+		
+		return LOGGED_IN;
 	}
 
 	

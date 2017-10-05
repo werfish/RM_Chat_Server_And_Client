@@ -25,9 +25,9 @@ public class Users {
 		
 		public void removeUser(User user){
 			synchronized(lock){
-				for(User item : usersList){
-					if(item.getUsername().equals(user.getUsername())){
-						usersList.remove(item);
+				for(int i = 0; i < usersList.size();i++){
+					if(usersList.get(i).getUsername().equals(user.getUsername())){
+						usersList.remove(i);
 					}
 				}
 			}

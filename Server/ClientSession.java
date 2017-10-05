@@ -69,6 +69,10 @@ public class ClientSession implements Runnable {
 						this.CONNECTED_USER = receivedMessage.getUsername();
 					}
 					continue;
+				}else if(receivedMessage.getType() == MessageType.DISCONNECT){
+					System.out.println("DISCONNECT PROCEDURE LOOK HERE!!!!!!!!!!!!!!!!!!!!");
+					disconnect();
+					break;
 				}
 				//AFTER USER LOGIN PROTOCOL
 				if(LOGGED_IN == true){
@@ -89,10 +93,8 @@ public class ClientSession implements Runnable {
 					}else if(receivedMessage.getType() == MessageType.LOGOUT){
 						System.out.println("LOGOUZT PROCEDURE PLEASE LOOK HERE!@#!@!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 						logout();
-					}else if(receivedMessage.getType() == MessageType.DISCONNECT){
-						System.out.println("DISCONNECT PROCEDURE LOOK HERE!!!!!!!!!!!!!!!!!!!!");
-						disconnect();
-						break;
+						System.out.println("Ater logout procedure");
+						continue;
 					}
 					
 				}
@@ -120,15 +122,21 @@ public class ClientSession implements Runnable {
 	}
 	
 	private void logout(){
+		System.out.println("Start Logout");
 		LOGGED_IN = false;
+		System.out.println("Pre msgBuffer");
 		if(!(msgBuffer == null)){
 			msgBuffer = null;
 		}
 		//Delete the use from users list
+		System.out.println("Pre removeUser");
 		usersList.removeUser(new User(this.CONNECTED_USER));
-		CONNECTED_USER = null;
+		System.out.println("Post removeUser");
+		CONNECTED_USER = "APP";
 		//remove the user from the connections list
+		System.out.println("Pre rremove user");
 		conn.removeUser();
+		System.out.println("Post remove user");
 	}
 	
 	private List<Message> getMsgAmount() {
