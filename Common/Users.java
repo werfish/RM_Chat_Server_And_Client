@@ -69,8 +69,8 @@ public class Users {
 		public Message toMessage() {
 			Message listMsg;
 			String content = "";
+			int i = 0;
 			for(User item : this.usersList){
-				int i = 0;
 				if(i == 0){
 					content = item.getUsername();
 				}else{

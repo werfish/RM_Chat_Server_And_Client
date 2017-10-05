@@ -77,7 +77,7 @@ public class ClientSession implements Runnable {
 					}else if(receivedMessage.getType() == MessageType.COMMAND){
 						if(receivedMessage.getContent().equals(Commands.GetLoggedInUsers.toString())){
 							Message answer;
-							answer = usersList.toMessage();
+							answer = this.usersList.toMessage();
 							sendMessage(answer);
 						}else if(receivedMessage.getContent().equals(Commands.ClientMsgAmount.toString())){
 							msgBuffer = getMsgAmount();

@@ -61,7 +61,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 	UsersListener usrListener;
 	Timer usrListenerTimer;
 	final int usrSpeed = 1000;
-	final int usrPause = 1500;
+	final int usrPause = 1000;
 	
 	public ChatWindow(User user) {
 		this.user = user;

@@ -118,7 +118,7 @@ public class Server {
 					Socket client = serverSocket.accept();
 					executor.submit(new ClientSession(connections,new Connection(client), users));
 					System.out.println("New client connected: PORT " + client.getPort() + " IP: " + client.getInetAddress());
-					System.out.println(users.toMessage().getContent());
+					System.out.println("Users amount: " + users.size() + " Users: " + users.toMessage().getContent());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
