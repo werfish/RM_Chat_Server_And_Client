@@ -118,6 +118,7 @@ public class ClientSession implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		connections.removeConnection(conn);
 		conn.closeConnection();
 	}
 	
