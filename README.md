@@ -25,7 +25,7 @@ In the use case when the user does not have an account, after clicking the Regis
 * username
 * password
 
-After inputing the above data to the input fields, the client needs to validate if the username is not taken in the system, and if the username string adheres to the username contraints as well as checking if the user inputted the password correcly and also if the password adheres to the password constraints.
+After inputing the above data to the input fields and presing the register button, the client needs to validate if the username is not taken in the system, and if the username string adheres to the username contraints as well as checking if the user inputted the password correcly and also if the password adheres to the password constraints. If the user decides to abort the registration process, the cancel button is present to go back to the login screen.
 
 
 ### 2.1.2 Admin
