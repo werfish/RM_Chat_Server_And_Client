@@ -29,7 +29,7 @@ After inputing the above data to the input fields and presing the register butto
 
 
 ### 2.1.2 Admin
-## 3 Custom "Message" Protocol
+## 3 Custom "Message" Protocol v1.0
 ### 3.1 The structure of the Message
 ### 3.2 Message Types
 ### 3.3 Command MessageType and the commands
