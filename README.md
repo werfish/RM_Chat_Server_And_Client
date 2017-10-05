@@ -5,6 +5,8 @@ The goal of the project is to create a multithreaded, multiclient and statefull 
 In the future the application should provide multiple chatrooms support, chatroom creation and deletion and instant messaging and all communication capabilities should be with IBM Watson based ad hoc message translation Engine.
 ## 2 Requirements
 ### 2.1.1 User
+User of the application should be presented with a login screen containing space for inputing their login name and password, Login button and Register button, in case the user does not have an account in the app. The login screen should contain validation checking if the username exists, and if the password has been inputted correctly. User should be notified in the case of an error in the login process or if the server is down. In case of the server being down  There should be 
+In case the user does not have an acc
 ### 2.1.2 Admin
 ## 3 Custom "Message" Protocol
 ### 3.1 The structure of the Message
