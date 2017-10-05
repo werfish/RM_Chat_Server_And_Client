@@ -33,6 +33,9 @@ In the use case when the user does not have an account, after clicking the Regis
 ### 6.1 Database Interface
 ### 6.2 Custom Storage
 ### 6.3 Oracle Connectivity
+**Not yet implemented**
 ### 6.4 MySql Connectivity
+**Not yet implemented**
 ### 6.5 MongoDB Connectivity
+**Not yet implemented**
 ## 7 Encryption and Security
