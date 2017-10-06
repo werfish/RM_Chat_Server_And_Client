@@ -18,7 +18,7 @@ public class Server {
 	final static int PORT = 5217;
 	final static int THREADS = 15;
 	final static String STORAGE = "Custom";
-	
+	final static boolean WATSON_TRANSLATE_ENGINE = false;
 	boolean isServerRunning;
 	MainServerThread mainThread;
 	StorageHandler database;
