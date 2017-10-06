@@ -257,6 +257,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 				//fill usersPanel with users
 				fillUsersPanel(users);
 			}else if(!users.compareUsersLists(new Users(queryResponse))){ //only replace the user list and refresh panel if there is a change on the list
+				users = new Users(queryResponse);
 				//remove all users labels from panel
 				removeUsersFromPanel();
 				//fill usersPanel with users
