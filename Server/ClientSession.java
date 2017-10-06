@@ -214,8 +214,9 @@ public class ClientSession implements Runnable {
 	//THIS was BAD Mmkay
 	private void distribute(Message msg){
 		for(int i = 0; i < this.usersList.size();i++){
-			Connection conn = connections.getConnection(usersList.getUser(i));
-			if(!(conn == null)){
+			User usr = usersList.getUser(i);
+			Connection conn = connections.getConnection(usr);
+			if(!(conn == null) && !conn.getLogin().equals(usr.getUsername())){
 				conn.addToQue(msg);
 			}
 		}
