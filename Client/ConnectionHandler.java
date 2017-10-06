@@ -74,6 +74,8 @@ public class ConnectionHandler implements Runnable {
 						addToQue(answer,errorQue);
 					}else if(answer.getType() == MessageType.DATA){
 						addToQue(answer,dataQue);
+						System.out.println(" THE LIST OF USERS INCOMING");
+						System.out.println(answer.getContent());
 					}else if(answer.getType() == MessageType.MESSAGE){
 						addToQue(answer,msgQue);
 						int msgCount = Integer.parseInt(answer.getContent());

@@ -13,6 +13,8 @@ import Common.Message;
 
 
 //THERE WILL BE A CONCURRENCY PROBLEM HERE!!!!!!
+
+//AND THERE WAS!!!
 public class Connection {
 	Socket socket;
 	String login;
@@ -20,6 +22,7 @@ public class Connection {
 	DataOutputStream output;
 	BlockingQueue<Message> msgQue; 
 	Boolean queInitialized;
+	Object lock = new Object();
 	
 	public Connection(Socket socket){
 		this.socket = socket;
@@ -47,11 +50,15 @@ public class Connection {
 	}
 	
 	public void setSocket(Socket socket){
-		this.socket = socket;
+		synchronized(lock) {
+			this.socket = socket;
+		}
 	}
 	
 	public void setLogin(String login) {
-		this.login = login;
+		synchronized(lock) {
+			this.login = login;
+		}
 	}
 	
 	public boolean isQueInitialized(){
@@ -100,10 +107,12 @@ public class Connection {
 	}
 	
 	public void removeUser(){
-		System.out.println("Pre decomission que");
-		decomisionQue();
-		System.out.println("Post decomission que");
-		this.login = null;
+		synchronized(lock) {
+			System.out.println("Pre decomission que");
+			decomisionQue();
+			System.out.println("Post decomission que");
+			this.login = null;
+		}
 	}
 	
 	public void closeConnection() {
@@ -121,13 +130,17 @@ public class Connection {
 	}
 	
 	public void sendMessage(Message message) throws IOException {
-		output.writeUTF(Message.disassemble(message));
+		synchronized(lock) {
+			output.writeUTF(Message.disassemble(message));
+		}
 	}
 	
 	public Message getMessage() throws IOException {
-		String message;
-		message = input.readUTF(); //ReadUTF methods reads the amount of letters send in UTF string which means there will not be problems with sepating messages
-		return Message.assemble(message);	
+		synchronized(lock) {
+			String message;
+			message = input.readUTF(); //ReadUTF methods reads the amount of letters send in UTF string which means there will not be problems with sepating messages
+			return Message.assemble(message);	
+		}
 	}
 	
 	
