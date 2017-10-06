@@ -211,10 +211,11 @@ public class ClientSession implements Runnable {
 		return true;
 	}
 	
+	//THIS was BAD Mmkay
 	private void distribute(Message msg){
-		for(int i = 0; i < this.connections.count();i++){
-			Connection conn = connections.getConnection(i);
-			if(!conn.getLogin().equals(msg.getUsername())){
+		for(int i = 0; i < this.usersList.size();i++){
+			Connection conn = connections.getConnection(usersList.getUser(i));
+			if(!(conn == null)){
 				conn.addToQue(msg);
 			}
 		}

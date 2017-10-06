@@ -25,6 +25,16 @@ public class Connections {
 		return connections.get(i);
 	}
 	
+	public Connection getConnection(User user) {
+		for(Connection conn : connections) {
+			if(!(conn.getLogin() == null) && user.getUsername().equals(conn.getLogin())){
+				return conn;
+			}
+		}
+		
+		return null;
+	}
+	
 	public void addConnection(Connection connection){
 		this.connections.add(connection);
 	}
