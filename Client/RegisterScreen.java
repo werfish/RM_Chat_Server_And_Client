@@ -33,6 +33,9 @@ public class RegisterScreen extends JPanel implements ActionListener {
 	JButton acceptButton = new JButton("Accept");
 	JButton cancelButton = new JButton("Cancel");
 	
+	//Connection handler singleton
+	private ConnectionHandler conn;
+	
 	//Variables holding the username and values
 	String name;
 	String surname;
@@ -45,6 +48,7 @@ public class RegisterScreen extends JPanel implements ActionListener {
 		registerPanel.setLayout(new GridLayout(6,2));
 		setPanel();
 		setActionListeners();
+		conn = ConnectionHandler.getInstance();
 	}
 	
 	private void setActionListeners() {
@@ -93,10 +97,10 @@ public class RegisterScreen extends JPanel implements ActionListener {
 			registerMessage = new Message(content,new User(username),MessageType.REGISTER);
 			System.out.println(registerMessage.getContent() + " " + registerMessage.getUsername() + " " + registerMessage.getType().toString());
 			
-			ConnectionHandler.sendRequest(registerMessage);
+			conn.sendRequest(registerMessage);
 			Message answer = null;
 			while(answer == null){
-				answer = ConnectionHandler.checkLogRegQue();
+				answer = conn.checkLogRegQue();
 			}
 			System.out.println(answer.getContent());
 		}
