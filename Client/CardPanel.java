@@ -30,7 +30,7 @@ import Common.User;
 
 public class CardPanel extends JPanel implements ActionListener{
 	//Configuration variables
-	JFrame loginFrame = new JFrame(Client.APPNAME);
+	JFrame mainClientFrame = new JFrame(Client.APPNAME);
 	Socket socket;
 	
 	//A panel which will hold the login panel
@@ -77,10 +77,10 @@ public class CardPanel extends JPanel implements ActionListener{
 	}
 
 	private void setFrame(){
-		loginFrame.setSize(500, 400);
-		loginFrame.add(this);
-		loginFrame.setVisible(true);
-		loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainClientFrame.setSize(500, 400);
+		mainClientFrame.add(this);
+		mainClientFrame.setVisible(true);
+		mainClientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void setLoginScreen() {
@@ -98,7 +98,7 @@ public class CardPanel extends JPanel implements ActionListener{
 	
 	//important exit logoutStuff
 	private void addCloseAdapter() {
-		loginFrame.addWindowListener(new WindowAdapter(){
+		mainClientFrame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
 				if(ConnectionHandler.isLoggedIn() == true){
 					ConnectionHandler.sendRequest(new Message("content",new User("App"),MessageType.LOGOUT));
