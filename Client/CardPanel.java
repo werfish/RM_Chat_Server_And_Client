@@ -49,7 +49,7 @@ public class CardPanel extends JPanel implements ActionListener{
 	
 	public static CardPanel getInstance(){
 		  if(uniqueInstance == null){
-			  synchronized (StatusBar.class){
+			  synchronized (CardPanel.class){
 				  uniqueInstance = new CardPanel();
 			  }
 		  }
