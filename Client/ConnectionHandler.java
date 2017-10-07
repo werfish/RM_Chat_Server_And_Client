@@ -10,6 +10,15 @@ import Common.Message;
 import Common.MessageType;
 
 public class ConnectionHandler implements Runnable {
+	//This class handles all the connections of the clint part of the applications
+	//It has one outgoing Que which holds messges to be sent to server and 4 incoming 
+	//blocking queues to capture incoming messges from the server
+	//4 queue are monitored by interested listeners across the client UI classes
+	//This class is being changed to a singleton as there should only be one instance of it at the same time
+	
+	//The below is the instance for the Singleton implementation
+	private static ConnectionHandler singleton;
+	
 	//The outgoing que, all messages to server go here
 	private static BlockingQueue<Message> serverQue = new ArrayBlockingQueue<Message>(10);
 	
@@ -19,13 +28,13 @@ public class ConnectionHandler implements Runnable {
 	private static BlockingQueue<Message> dataQue = new ArrayBlockingQueue<Message>(10); // this is the channel on wchich UsersList thread will be observing
 	private static BlockingQueue<Message> errorQue = new ArrayBlockingQueue<Message>(10); //this is the channel which will be obvserved for any errors or server shutdowns, or maintenance messages
 
-	
+	//The Client network flags
 	private boolean CONNECTION_OPEN;
 	private boolean APPLICATION_RUNNING = true;
 	private static boolean LOGGED_IN = false;
 	private Connection conn;
 	
-	public ConnectionHandler(){
+	private ConnectionHandler(){
 			conn = new Connection();
 			try {
 				 conn.connect();
@@ -39,6 +48,15 @@ public class ConnectionHandler implements Runnable {
 				CONNECTION_OPEN = false;
 			}
 			CONNECTION_OPEN = true;
+	}
+	
+	public static ConnectionHandler getInstance(){
+		  if(singleton == null){
+			  synchronized (ConnectionHandler.class){
+				 singleton  = new ConnectionHandler();
+			  }
+		  }
+		  return singleton;
 	}
 	
 	@Override
