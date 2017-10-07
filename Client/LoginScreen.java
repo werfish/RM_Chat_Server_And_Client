@@ -30,6 +30,9 @@ public class LoginScreen extends JPanel implements ActionListener {
 	JButton registerButton = new JButton("Register");
 	JButton loginButton = new JButton("Login");
 	
+	//Connection handler singleton
+	private ConnectionHandler conn;
+	
 	//Variables holding the username and values
 	String username;
 	String password;
@@ -38,6 +41,7 @@ public class LoginScreen extends JPanel implements ActionListener {
 		setLoginPanel();
 		setLoginScreen();
 		setActonListeners();
+		conn = ConnectionHandler.getInstance();
 	}
 	
 	private void setLoginPanel(){
@@ -71,10 +75,10 @@ public class LoginScreen extends JPanel implements ActionListener {
 			this.username = usernameTextField.getText();
 			this.password = passwordTextField.getText();
 			Credentials cred = new Credentials(username,password);
-			ConnectionHandler.sendRequest(cred.toMessage());
+			conn.sendRequest(cred.toMessage());
 			Message loginAnswer  = 	null;
 			while(loginAnswer == null){
-				loginAnswer = ConnectionHandler.checkLogRegQue();
+				loginAnswer = conn.checkLogRegQue();
 			}	
 			System.out.println("Message from Server: " + loginAnswer.getType().toString() + " " + loginAnswer.getUsername() + " " + loginAnswer.getContent());
 			if(loginAnswer.getContent().contains("SUCCESS")){
