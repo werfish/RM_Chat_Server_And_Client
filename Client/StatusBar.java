@@ -4,25 +4,41 @@ import javax.swing.JPanel;
 
 public class StatusBar extends JPanel {
 //This class will be used to display the connection status, display messages when it is trying to reconnect etc
-//This is the first class to implement the 
+//This is the first class to implement the singleton  design patter, the panel should reside at the bottom of the
+//application
+	
   private JLabel connLabel;
   private JLabel msgLabel;
+  private volatile static StatusBar uniqueInstance;
 
-  public StatusBar() {
-    this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+  private StatusBar() {
+    this.setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
+    this.add(connLabel);
+    this.add(msgLabel);
   }
   
+  public static StatusBar getInstance() {
+	  if(uniqueInstance == null){
+		  synchronized (StatusBar.class){
+			  uniqueInstance = new StatusBar();
+		  }
+	  }
+	  return uniqueInstance;
+  }
+  
+  
+  
   public void setNotConnected() {
-      
+      connLabel.setText("Not Connected");
   }
   
   public void setConnected() {
-  
+	  connLabel.setText("Connected");
   }
   
   //the message should be displayed only for max 2-3 seconds
-  public void displayMessage() {
-  
+  public void displayMessage(String msg) {
+	  msgLabel.setText(msg);
   }
 
 }
