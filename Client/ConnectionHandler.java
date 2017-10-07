@@ -27,7 +27,18 @@ public class ConnectionHandler implements Runnable {
 	
 	public ConnectionHandler(){
 			conn = new Connection();
-			CONNECTION_OPEN = conn.connect();
+			try {
+				 conn.connect();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				CONNECTION_OPEN = false;
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				CONNECTION_OPEN = false;
+			}
+			CONNECTION_OPEN = true;
 	}
 	
 	@Override
@@ -83,7 +94,7 @@ public class ConnectionHandler implements Runnable {
 						
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					conn.closeConnection();
 				}
 				
 			}else if(CONNECTION_OPEN == false){
@@ -92,11 +103,13 @@ public class ConnectionHandler implements Runnable {
 					wait(1000);
 					System.out.println("Reconnecting in: " + i + " seconds!");
 					}
-					this.CONNECTION_OPEN = conn.connect();
-				} catch (InterruptedException e) {
+					conn.connect();
+				} catch (InterruptedException | IOException e) {
 					// TODO Auto-generated catch block
+					CONNECTION_OPEN = false;
 					e.printStackTrace();
 				}
+				CONNECTION_OPEN = true;
 				
 			}
 			

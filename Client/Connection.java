@@ -16,30 +16,23 @@ public class Connection {
 
 	}
 	
-	public boolean connect() {
-		try {
+	public void connect() throws UnknownHostException, IOException {
 			socket = new Socket(Client.HOST_INET,Client.PORT);
 			input = new DataInputStream(socket.getInputStream());
 			output = new DataOutputStream(socket.getOutputStream());
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			return false;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			return false;
-		}
+
 		System.out.println("Client connection intialized!!!");
-		return true;
 	}
 	
-	public void sendMessage(Message message) throws IOException {
+	public void sendMessage(Message message) throws IOException{
 		output.writeUTF(Message.disassemble(message));
 	}
 	
 	public Message getMessage() throws IOException {
 		String message;
-		message = input.readUTF(); //ReadUTF methods reads the amount of letters send in UTF string which means there will not be problems with sepating messages
+		message = input.readUTF();
 		return Message.assemble(message);	
+		 //ReadUTF methods reads the amount of letters send in UTF string which means there will not be problems with sepating messages
 	}
 	
 	public void closeConnection() {
