@@ -20,18 +20,18 @@ public class ConnectionHandler implements Runnable {
 	private static ConnectionHandler singleton;
 	
 	//The outgoing que, all messages to server go here
-	private static BlockingQueue<Message> serverQue = new ArrayBlockingQueue<Message>(10);
+	private BlockingQueue<Message> serverQue = new ArrayBlockingQueue<Message>(10);
 	
 	//This is the separate channels ques
-	private static BlockingQueue<Message> logRegQue = new ArrayBlockingQueue<Message>(10); //Login and registration channel(there is not much messages there and back) 
-	private static BlockingQueue<Message> msgQue = new ArrayBlockingQueue<Message>(10); //que that will hold all Messeges for chat
-	private static BlockingQueue<Message> dataQue = new ArrayBlockingQueue<Message>(10); // this is the channel on wchich UsersList thread will be observing
-	private static BlockingQueue<Message> errorQue = new ArrayBlockingQueue<Message>(10); //this is the channel which will be obvserved for any errors or server shutdowns, or maintenance messages
+	private BlockingQueue<Message> logRegQue = new ArrayBlockingQueue<Message>(10); //Login and registration channel(there is not much messages there and back) 
+	private BlockingQueue<Message> msgQue = new ArrayBlockingQueue<Message>(10); //que that will hold all Messeges for chat
+	private BlockingQueue<Message> dataQue = new ArrayBlockingQueue<Message>(10); // this is the channel on wchich UsersList thread will be observing
+	private BlockingQueue<Message> errorQue = new ArrayBlockingQueue<Message>(10); //this is the channel which will be obvserved for any errors or server shutdowns, or maintenance messages
 
 	//The Client network flags
 	private boolean CONNECTION_OPEN;
 	private boolean APPLICATION_RUNNING = true;
-	private static boolean LOGGED_IN = false;
+	private boolean LOGGED_IN = false;
 	private Connection conn;
 	
 	private ConnectionHandler(){
@@ -134,7 +134,7 @@ public class ConnectionHandler implements Runnable {
 		}
 	}
 	
-	public static void resetChatQueues() {
+	public void resetChatQueues() {
 		if(!msgQue.isEmpty()){
 			for(int i = 0; i < msgQue.size();i++){
 				takeOffQue(msgQue);
@@ -147,13 +147,13 @@ public class ConnectionHandler implements Runnable {
 		}
 	}
 	
-	public static boolean isLoggedIn() {
+	public boolean isLoggedIn() {
 		
 		return LOGGED_IN;
 	}
 
 	
-	private static void addToQue(Message msg, BlockingQueue<Message> que){
+	private void addToQue(Message msg, BlockingQueue<Message> que){
 		try {
 			que.put(msg);
 		} catch (InterruptedException e) {
@@ -162,7 +162,7 @@ public class ConnectionHandler implements Runnable {
 		}
 	}
 	
-	private static Message takeOffQue(BlockingQueue<Message> que){
+	private Message takeOffQue(BlockingQueue<Message> que){
 		Message workArround;
 		try {
 			workArround = que.take();
@@ -181,33 +181,33 @@ public class ConnectionHandler implements Runnable {
 	}
 	
 	
-	public static void sendRequest(Message msg){
+	public void sendRequest(Message msg){
 		addToQue(msg,serverQue);
 		System.out.println("Message Sent!!!");
 	}
 	
-	public static Message checkLogRegQue(){
+	public Message checkLogRegQue(){
 		if(!logRegQue.isEmpty()){
 			return takeOffQue(logRegQue);
 		}
 		return null;
 	}
 	
-	public static Message checkMsgQue(){
+	public Message checkMsgQue(){
 		if(!msgQue.isEmpty()){
 			return takeOffQue(msgQue);
 		}
 		return null;
 	}
 	
-	public static Message checkErrorQue(){
+	public Message checkErrorQue(){
 		if(!errorQue.isEmpty()){
 			return takeOffQue(errorQue);
 		}
 		return null;
 	}
 	
-	public static Message checkDataQue(){
+	public Message checkDataQue(){
 		if(!dataQue.isEmpty()){
 			return takeOffQue(dataQue);
 		}
