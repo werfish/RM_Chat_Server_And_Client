@@ -7,6 +7,7 @@ public class Client {
 	final static String COMMAND_STARTER = "??"; 
 	final static String HOST_INET = "localhost";
 	final static int PORT = 5217;
+	final static int TIMEOUT = 10; //in seconds
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

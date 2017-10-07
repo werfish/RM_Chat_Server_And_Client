@@ -1,7 +1,9 @@
 package Client;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +22,9 @@ public class StatusBar extends JPanel {
     this.setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
     connLabel = new JLabel();
     msgLabel = new JLabel();
+    this.add(Box.createRigidArea(new Dimension(5,5)));
     this.add(connLabel);
+    this.add(Box.createRigidArea(new Dimension(100,5)));
     this.add(msgLabel);
   }
   

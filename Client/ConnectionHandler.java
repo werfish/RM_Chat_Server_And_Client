@@ -2,6 +2,8 @@ package Client;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -38,19 +40,24 @@ public class ConnectionHandler implements Runnable {
 	private Connection conn;
 	
 	private ConnectionHandler(){
-			conn = new Connection();
-			try {
-				 conn.connect();
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				CONNECTION_OPEN = false;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				CONNECTION_OPEN = false;
-			}
-			CONNECTION_OPEN = true;
-			connBar = StatusBar.getInstance();
-			connBar.setConnectionStatus(CONNECTION_OPEN);
+		
+		CONNECTION_OPEN = startConnection();
+		connBar = StatusBar.getInstance();
+		connBar.setConnectionStatus(CONNECTION_OPEN);
+	}
+	
+	private boolean startConnection() {
+		conn = new Connection();
+		try {
+			 conn.connect();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
+		return true;
 	}
 	
 	public static ConnectionHandler getInstance(){
@@ -120,19 +127,40 @@ public class ConnectionHandler implements Runnable {
 				}
 				
 			}else if(CONNECTION_OPEN == false){
-				try {
-					for(int i = 1; i <= 10;i++){
-					wait(1000);
-					System.out.println("Reconnecting in: " + i + " seconds!");
+				Thread timer = new Thread(new Runnable(){
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						connBar.displayMessage("Connection has been lost. Preparing to reconnect...", 2);
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						for(int i = Client.TIMEOUT; i >= 0;i--){
+							connBar.displayMessage("Reconnecting to server in " + String.valueOf(i) + " seconds....",1);
+							try {
+								Thread.sleep(1000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 					}
-					conn.connect();
-				} catch (InterruptedException | IOException e) {
+					
+				});	
+				
+				timer.start();
+				try {
+					timer.join();
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					CONNECTION_OPEN = false;
 					e.printStackTrace();
 				}
-				CONNECTION_OPEN = true;
-				
+				CONNECTION_OPEN = startConnection();
+				connBar.setConnectionStatus(CONNECTION_OPEN);
 			}
 			
 		}
