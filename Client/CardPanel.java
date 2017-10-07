@@ -22,7 +22,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
+import Client.ChatWindow.MessageListener;
+import Client.ChatWindow.UsersListener;
 import Common.Credentials;
 import Common.Message;
 import Common.MessageType;
@@ -45,6 +49,12 @@ public class CardPanel extends JPanel implements ActionListener{
 	//Card layout
 	private CardLayout card;
 	private static CardPanel uniqueInstance;
+	
+	//Listeners and tasks and timers
+	private ErrorListener errListener;
+	private Timer errListenerTimer;
+	final int errSpeed = 500;
+	final int errPause = 500;
 	
 	private CardPanel(){
 		setLayout(new CardLayout());
@@ -97,6 +107,85 @@ public class CardPanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void addErrorListenerTimer() {
+		errListenerTimer = new Timer(errSpeed, new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				runErrorListener();
+			}
+			
+		});
+		errListenerTimer.setInitialDelay(errPause);
+		errListenerTimer.start(); 
+	}
+	
+	private void runErrorListener() {
+		if(errListener == null || errListener.isDone == true){
+			errListener = new ErrorListener();
+			SwingUtilities.invokeLater(errListener);
+		}
+	}
+	
+	private class ErrorListener implements Runnable{
+		private boolean isDone;
+		
+		public ErrorListener() {
+			isDone = false;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			isDone = false;
+			
+			Message error = null;
+			while(error == null){
+				error = conn.checkErrorQue();
+			}
+			System.out.println("Error incoming: " + error.getContent().toString());
+			
+			//translating error conetcnt to the enum type
+			String errType = error.getContent();
+			ClientErrors err;
+			err = err.valueOf(errType);
+			
+			//ERRROR enumerations will be listed here for every and each error
+			switch(err) {
+				case WRONG_PASS:
+					showError("Wrong pasword, please try again!");
+					break;
+					
+				case USER_ALREADY_LOGGED_IN:
+					showError("Users is already loggged in!");
+					break;
+					
+				case USERNAME_TAKEN:
+					showError("This username is already taken in  the system!");
+					break;
+				
+				case PASSWORD_REPEAT_WRONG:
+					showError("Repeated password does not match with password!");
+					break;
+				
+				case LOST_CONNECTION_TO_SERVER:
+					showError("Connection to server has been lost!");
+					break;
+			}
+			//WRONG_USER, USER_ALREADY_LOGGED_IN, USERNAME_TAKEN, PASSWORD_REPEAT_WRONG
+			
+			//ERRRORS END
+			
+			
+			isDone = true;
+		}
+		
+		private void showError(String message) {
+			 JOptionPane.showMessageDialog(mainClientFrame, message, "Dialog", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 }

@@ -10,6 +10,7 @@ import java.util.concurrent.BlockingQueue;
 import Common.Commands;
 import Common.Message;
 import Common.MessageType;
+import Common.User;
 
 public class ConnectionHandler implements Runnable {
 	//This class handles all the connections of the clint part of the applications
@@ -80,7 +81,14 @@ public class ConnectionHandler implements Runnable {
 					Message toServer;
 					toServer = takeOffQue(serverQue);
 					System.out.println(toServer.getContent() + " " + toServer.getUser().getUsername() + " " + toServer.getType().toString());
+					if(toServer.getType() == MessageType.ERROR){
+						addToQue(toServer,errorQue);
+						continue;
+					}
+					
+					//Here the message gets sent
 					conn.sendMessage(toServer);
+					
 					if(toServer.getType() == MessageType.DISCONNECT) {
 						System.out.println("Connection handler Closing");
 						closeConnection();
@@ -122,6 +130,7 @@ public class ConnectionHandler implements Runnable {
 						
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					addToQue(new Message(ClientErrors.LOST_CONNECTION_TO_SERVER.toString(),new User("Client"),MessageType.ERROR)),errorQue);
 					conn.closeConnection();
 					CONNECTION_OPEN = false;
 				}
