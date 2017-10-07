@@ -53,6 +53,9 @@ public class ChatWindow extends JPanel implements ActionListener {
 	User user;
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); //Date format for the char
 	
+	//Connection handler
+	ConnectionHandler conn;
+	
 	//Listeners and tasks and timers
 	MessageListener msgListener;
 	Timer msgListenerTimer;
@@ -78,6 +81,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 		usrListener = null;
 		addUsersListenerTimer();
 		addMessageListenerTimer();
+		conn = ConnectionHandler.getInstance();
 	}
 	
 	private void setPanel(){
@@ -112,7 +116,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 				Date date = new Date();
 				msgString = "[" + outgoingMsg.getUsername() + "]@[" + dateFormat.format(date) + "] :" + outgoingMsg.getContent() + "\n";
 				msgArea.append(msgString);
-				ConnectionHandler.sendRequest(outgoingMsg);
+				conn.sendRequest(outgoingMsg);
 			}
 		}else if(e.getSource() == logoutButton){
 			// close all the timers
@@ -122,9 +126,9 @@ public class ChatWindow extends JPanel implements ActionListener {
 				
 			}
 			//after the timers are closed then send the logout message to server
-			ConnectionHandler.sendRequest(new Message("content",new User("App"),MessageType.LOGOUT));
+			conn.sendRequest(new Message("content",new User("App"),MessageType.LOGOUT));
 			System.out.println("Client is logging out..............");
-			ConnectionHandler.resetChatQueues();
+			conn.resetChatQueues();
 			msgListener = null;
 			usrListener = null;
 			
@@ -196,11 +200,11 @@ public class ChatWindow extends JPanel implements ActionListener {
 			//first ask the server if there is any new messeges waiting for this user
 			Message msgAmountQuery;
 			msgAmountQuery = new Message(Commands.ClientMsgFlush.toString(),user,MessageType.COMMAND);
-			ConnectionHandler.sendRequest(msgAmountQuery);
+			conn.sendRequest(msgAmountQuery);
 			
 			Message amountResponse = null;
 			while(amountResponse == null){
-				amountResponse = ConnectionHandler.checkMsgQue();
+				amountResponse = conn.checkMsgQue();
 			}
 			System.out.println("Message amount on the server: " + amountResponse.getContent());
 			
@@ -214,7 +218,7 @@ public class ChatWindow extends JPanel implements ActionListener {
 					System.out.println("Client: Inside the meesage loop" + i);
 					Message incomingMsg = null;
 					while(incomingMsg == null){
-						incomingMsg = ConnectionHandler.checkMsgQue();
+						incomingMsg = conn.checkMsgQue();
 					}
 					
 					String msgString;
@@ -240,12 +244,12 @@ public class ChatWindow extends JPanel implements ActionListener {
 			isDone = false;
 			Message userDataQuery;
 			userDataQuery = new Message(Commands.GetLoggedInUsers.toString(),user,MessageType.COMMAND);
-			ConnectionHandler.sendRequest(userDataQuery);
+			conn.sendRequest(userDataQuery);
 			
 			//getting the answer
 			Message queryResponse = null;
 			while(queryResponse == null){
-				queryResponse = ConnectionHandler.checkDataQue();
+				queryResponse = conn.checkDataQue();
 			}
 			System.out.println("Users LOGGED IN: " + queryResponse.getContent());
 			
