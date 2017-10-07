@@ -15,7 +15,7 @@ public class Client {
 		//frame.setSize(500,500);
 		
 		//initalizaing the connection handler
-		ConnectionHandler handler = new ConnectionHandler();
+		ConnectionHandler handler = ConnectionHandler.getInstance();
 		Thread connThread = new Thread(handler);
 		connThread.start();
 		
