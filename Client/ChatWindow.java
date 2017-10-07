@@ -129,8 +129,8 @@ public class ChatWindow extends JPanel implements ActionListener {
 			usrListener = null;
 			
 			//open the login screen
-			CardPanel login = (CardPanel) getParent();
-			login.card.show(login, "login");
+			CardPanel login = CardPanel.getInstance();
+			login.getCardLayout().show(login, "login");
 		}
 		
 	}

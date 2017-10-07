@@ -25,7 +25,7 @@ public class ClientSession implements Runnable {
 	//SESSION FLAGS
 	Boolean LOGGED_IN;
 	String CONNECTED_USER;
-	String WATSON_TRANSLATE_ON;
+	boolean WATSON_TRANSLATE_ON;
 	
 	public ClientSession(Connections connections, Connection conn, Users usersList) throws IOException {
 		this.connections = connections;

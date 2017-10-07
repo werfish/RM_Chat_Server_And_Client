@@ -31,49 +31,33 @@ import Common.User;
 public class CardPanel extends JPanel implements ActionListener{
 	//Configuration variables
 	JFrame mainClientFrame = new JFrame(Client.APPNAME);
-	Socket socket;
 	
 	//A panel which will hold the login panel
-	JPanel loginScreenPanel = new JPanel();
-	
-	//the login panel will hold all the buttons and labels
-	JPanel loginPanel = new JPanel(new GridLayout(3,2));
-	
-	//The whole application will be based on cardLayout
-	
-	//The labels for the Password and Login textBOXES
-	JLabel loginLabel = new JLabel("Username: ");
-	JLabel passwordLabel = new JLabel("Password: ");
-	
-	//the below are Text fields that will be used for password and login
-	final JTextField usernameTextField = new JTextField("Login", 20);
-	final JTextField passwordTextField = new JTextField("Password", 20);
-	//the buttons for login or register
-	JButton registerButton = new JButton("Register");
-	JButton loginButton = new JButton("Login");
+	JPanel loginScreenPanel = new LoginScreen();
 	
 	//Card layout
-	CardLayout card;
+	private CardLayout card;
+	private static CardPanel uniqueInstance;
 	
-	//Variables holding the username and values
-	String username;
-	String password;
-	
-	CardPanel(){
+	private CardPanel(){
 		setLayout(new CardLayout());
 		add(loginScreenPanel, "login");
 		card = (CardLayout) getLayout();
 		setFrame();
-		setLoginPanel();
-		setLoginScreen();
-		setActonListeners();
 		addCloseAdapter();
 	}
 	
-	private void setActonListeners() {
-		// TODO Auto-generated method stub
-		this.registerButton.addActionListener(this);
-		this.loginButton.addActionListener(this);
+	public static CardPanel getInstance(){
+		  if(uniqueInstance == null){
+			  synchronized (StatusBar.class){
+				  uniqueInstance = new CardPanel();
+			  }
+		  }
+		  return uniqueInstance;
+	}
+	
+	public CardLayout getCardLayout() {
+		return this.card;
 	}
 
 	private void setFrame(){
@@ -81,19 +65,6 @@ public class CardPanel extends JPanel implements ActionListener{
 		mainClientFrame.add(this);
 		mainClientFrame.setVisible(true);
 		mainClientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	private void setLoginScreen() {
-		loginScreenPanel.add(loginPanel);
-	}
-	
-	private void setLoginPanel(){
-		loginPanel.add(loginLabel);
-		loginPanel.add(usernameTextField);
-		loginPanel.add(passwordLabel);
-		loginPanel.add(passwordTextField);
-		loginPanel.add(loginButton);
-		loginPanel.add(registerButton);
 	}
 	
 	//important exit logoutStuff
@@ -110,30 +81,11 @@ public class CardPanel extends JPanel implements ActionListener{
 			}
 		});
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource() == registerButton){
-			add(new RegisterScreen(),"register");
-			card.show(this, "register");
-		} 
-		if(e.getSource() == loginButton) {
-			System.out.println("Clicked Login!!!");
-			this.username = usernameTextField.getText();
-			this.password = passwordTextField.getText();
-			Credentials cred = new Credentials(username,password);
-			ConnectionHandler.sendRequest(cred.toMessage());
-			Message loginAnswer  = 	null;
-			while(loginAnswer == null){
-				loginAnswer = ConnectionHandler.checkLogRegQue();
-			}	
-			System.out.println("Message from Server: " + loginAnswer.getType().toString() + " " + loginAnswer.getUsername() + " " + loginAnswer.getContent());
-			if(loginAnswer.getContent().contains("SUCCESS")){
-				add(new ChatWindow(cred.toMessage().getUser()),"MainScreen");
-				card.show(this, "MainScreen");
-			}
-		}
+		
 	}
 	
 }

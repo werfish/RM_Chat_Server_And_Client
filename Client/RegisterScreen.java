@@ -79,8 +79,8 @@ public class RegisterScreen extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == cancelButton){
-			CardPanel login = (CardPanel) getParent();
-			login.card.show(login, "login");
+			CardPanel login = CardPanel.getInstance();
+			login.getCardLayout().show(login, "login");
 		}if(e.getSource() == acceptButton){
 			System.out.println("Register Clicked!!!");
 			this.name = firstNameField.getText();

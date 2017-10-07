@@ -19,7 +19,7 @@ public class Client {
 		Thread connThread = new Thread(handler);
 		connThread.start();
 		
-		CardPanel login = new CardPanel();
+		CardPanel login = CardPanel.getInstance();
 		
 		//frame.add(login);
 		//frame.setVisible(true);
