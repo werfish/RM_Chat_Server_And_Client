@@ -20,28 +20,22 @@ public class ConnectionHandler implements Runnable {
 	private static BlockingQueue<Message> errorQue = new ArrayBlockingQueue<Message>(10); //this is the channel which will be obvserved for any errors or server shutdowns, or maintenance messages
 
 	
-	private boolean CONNECTION_OPEN = true;
+	private boolean CONNECTION_OPEN;
+	private boolean APPLICATION_RUNNING = true;
 	private static boolean LOGGED_IN = false;
 	private Connection conn;
 	
 	public ConnectionHandler(){
-		try {
 			conn = new Connection();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			CONNECTION_OPEN = conn.connect();
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		System.out.println("Connection Handler initialized!!!");
-		while(CONNECTION_OPEN == true){
-			if(!serverQue.isEmpty()){
+		while(APPLICATION_RUNNING){
+			if(!serverQue.isEmpty() && CONNECTION_OPEN == true){
 				try {
 					System.out.println("What about the conitnue statement?");
 					Message toServer;
@@ -88,6 +82,18 @@ public class ConnectionHandler implements Runnable {
 					}
 						
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}else if(CONNECTION_OPEN == false){
+				try {
+					for(int i = 1; i <= 10;i++){
+					wait(1000);
+					System.out.println("Reconnecting in: " + i + " seconds!");
+					}
+					this.CONNECTION_OPEN = conn.connect();
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

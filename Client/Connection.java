@@ -12,11 +12,24 @@ public class Connection {
 	DataInputStream input;
 	DataOutputStream output;
 	
-	public Connection() throws UnknownHostException, IOException {
-		socket = new Socket(Client.HOST_INET,Client.PORT);
-		input = new DataInputStream(socket.getInputStream());
-		output = new DataOutputStream(socket.getOutputStream());
+	public Connection() {
+
+	}
+	
+	public boolean connect() {
+		try {
+			socket = new Socket(Client.HOST_INET,Client.PORT);
+			input = new DataInputStream(socket.getInputStream());
+			output = new DataOutputStream(socket.getOutputStream());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			return false;
+		}
 		System.out.println("Client connection intialized!!!");
+		return true;
 	}
 	
 	public void sendMessage(Message message) throws IOException {

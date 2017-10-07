@@ -216,7 +216,7 @@ public class ClientSession implements Runnable {
 		for(int i = 0; i < this.usersList.size();i++){
 			User usr = usersList.getUser(i);
 			Connection conn = connections.getConnection(usr);
-			if(!(conn == null) && !conn.getLogin().equals(usr.getUsername())){
+			if(!(conn == null) && !conn.getLogin().equals(CONNECTED_USER)){
 				conn.addToQue(msg);
 			}
 		}
