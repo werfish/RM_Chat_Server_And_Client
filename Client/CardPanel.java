@@ -1,4 +1,5 @@
 package Client;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
@@ -38,6 +39,9 @@ public class CardPanel extends JPanel implements ActionListener{
 	//Connection handler singleton
 	ConnectionHandler conn;
 	
+	//Status bar
+	StatusBar conStatus;
+	
 	//Card layout
 	private CardLayout card;
 	private static CardPanel uniqueInstance;
@@ -65,8 +69,11 @@ public class CardPanel extends JPanel implements ActionListener{
 	}
 
 	private void setFrame(){
+		conStatus = StatusBar.getInstance();
 		mainClientFrame.setSize(500, 400);
-		mainClientFrame.add(this);
+		mainClientFrame.setLayout(new BorderLayout());
+		mainClientFrame.add(this,BorderLayout.NORTH);
+		mainClientFrame.add(conStatus,BorderLayout.SOUTH);
 		mainClientFrame.setVisible(true);
 		mainClientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

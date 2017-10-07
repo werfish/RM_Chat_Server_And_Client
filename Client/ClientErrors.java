@@ -1,0 +1,5 @@
+package Client;
+
+public enum ClientErrors {
+	WRONG_PASS, WRONG_USER, USER_ALREADY_LOGGED_IN, USERNAME_TAKEN, PASSWORD_REPEAT_WRONG
+}

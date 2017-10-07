@@ -1,7 +1,11 @@
 package Client;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class StatusBar extends JPanel {
 //This class will be used to display the connection status, display messages when it is trying to reconnect etc
@@ -14,6 +18,8 @@ public class StatusBar extends JPanel {
 
   private StatusBar() {
     this.setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
+    connLabel = new JLabel();
+    msgLabel = new JLabel();
     this.add(connLabel);
     this.add(msgLabel);
   }
@@ -50,6 +56,24 @@ public class StatusBar extends JPanel {
   //the message should be displayed only for max 2-3 seconds
   public void displayMessage(String msg) {
 	  msgLabel.setText(msg);
+  }
+  
+  public void displayMessage(String msg, int seconds){
+	  seconds = seconds * 1000;
+	  Timer msgTime = new Timer(seconds, new ActionListener(){
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			if(msg.equals(msgLabel.getText())){
+				msgLabel.setText("");
+			}
+		}
+		  
+	  });
+	  msgLabel.setText(msg);
+	  msgTime.setRepeats(false);
+	  msgTime.start();
   }
 
 }

@@ -19,6 +19,9 @@ public class ConnectionHandler implements Runnable {
 	//The below is the instance for the Singleton implementation
 	private static ConnectionHandler singleton;
 	
+	//The connection handler will be steering the Status Bar
+	private StatusBar connBar;
+	
 	//The outgoing que, all messages to server go here
 	private BlockingQueue<Message> serverQue = new ArrayBlockingQueue<Message>(10);
 	
@@ -41,13 +44,13 @@ public class ConnectionHandler implements Runnable {
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				CONNECTION_OPEN = false;
-				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
 				CONNECTION_OPEN = false;
 			}
 			CONNECTION_OPEN = true;
+			connBar = StatusBar.getInstance();
+			connBar.setConnectionStatus(CONNECTION_OPEN);
 	}
 	
 	public static ConnectionHandler getInstance(){
@@ -113,6 +116,7 @@ public class ConnectionHandler implements Runnable {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					conn.closeConnection();
+					CONNECTION_OPEN = false;
 				}
 				
 			}else if(CONNECTION_OPEN == false){
@@ -184,6 +188,14 @@ public class ConnectionHandler implements Runnable {
 	public void sendRequest(Message msg){
 		addToQue(msg,serverQue);
 		System.out.println("Message Sent!!!");
+	}
+	
+	public void showActionOnBar(Message msg){
+		if(msg.getType() == MessageType.LOGIN){
+			connBar.displayMessage("Login Request Processing....", 2);
+		}else if(msg.getType() == MessageType.REGISTER) {
+			connBar.displayMessage("Register Request Processing....", 2);
+		}
 	}
 	
 	public Message checkLogRegQue(){
