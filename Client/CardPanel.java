@@ -35,6 +35,9 @@ public class CardPanel extends JPanel implements ActionListener{
 	//A panel which will hold the login panel
 	JPanel loginScreenPanel = new LoginScreen();
 	
+	//Connection handler singleton
+	ConnectionHandler conn;
+	
 	//Card layout
 	private CardLayout card;
 	private static CardPanel uniqueInstance;
@@ -45,6 +48,7 @@ public class CardPanel extends JPanel implements ActionListener{
 		card = (CardLayout) getLayout();
 		setFrame();
 		addCloseAdapter();
+		conn = ConnectionHandler.getInstance();
 	}
 	
 	public static CardPanel getInstance(){
@@ -71,11 +75,11 @@ public class CardPanel extends JPanel implements ActionListener{
 	private void addCloseAdapter() {
 		mainClientFrame.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
-				if(ConnectionHandler.isLoggedIn() == true){
-					ConnectionHandler.sendRequest(new Message("content",new User("App"),MessageType.LOGOUT));
+				if(conn.isLoggedIn() == true){
+					conn.sendRequest(new Message("content",new User("App"),MessageType.LOGOUT));
 					System.out.println("Client is logging out..............");
 				}
-				ConnectionHandler.sendRequest(new Message("content",new User("App"),MessageType.DISCONNECT));
+				conn.sendRequest(new Message("content",new User("App"),MessageType.DISCONNECT));
 				System.out.println("Client is disconnecting..............");
 				System.exit(1);
 			}
