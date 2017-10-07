@@ -27,13 +27,23 @@ public class StatusBar extends JPanel {
 	  return uniqueInstance;
   }
   
+  public String getConnectionStatus() {
+	  return connLabel.getText();
+  }
   
+  public void setConnectionStatus(boolean status) {
+	  if(status == true){
+		  setConnected();
+	  }else{
+		  setNotConnected();
+	  }
+  }
   
-  public void setNotConnected() {
+  private void setNotConnected() {
       connLabel.setText("Not Connected");
   }
   
-  public void setConnected() {
+  private void setConnected() {
 	  connLabel.setText("Connected");
   }
   
