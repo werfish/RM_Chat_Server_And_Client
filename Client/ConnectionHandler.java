@@ -130,7 +130,7 @@ public class ConnectionHandler implements Runnable {
 						
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					addToQue(new Message(ClientErrors.LOST_CONNECTION_TO_SERVER.toString(),new User("Client"),MessageType.ERROR)),errorQue);
+					addToQue(new Message(ClientErrors.LOST_CONNECTION_TO_SERVER.toString(),new User("Client"),MessageType.ERROR),errorQue);
 					conn.closeConnection();
 					CONNECTION_OPEN = false;
 				}
