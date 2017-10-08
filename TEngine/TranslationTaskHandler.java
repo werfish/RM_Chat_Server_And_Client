@@ -2,6 +2,7 @@ package TEngine;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,7 +34,12 @@ public class TranslationTaskHandler implements Runnable {
 	
 	public void sendRequest(TranslationRequest request) throws InterruptedException{
 		taskQue.put(request);
-	};
+	}
+	
+	private boolean checkLanguage(String target) {
+		
+		return false;
+	}
 
 	@Override
 	public void run() {
@@ -42,12 +48,22 @@ public class TranslationTaskHandler implements Runnable {
 			if(!taskQue.isEmpty()){
 				//Get the request
 				try {
-					TranslationRequest request = taskQue.take();
+					TranslationRequest request;
+					request = taskQue.take();
+					boolean isTargetOnWatsonList = checkLanguage(request.getTargetLanguage());
+					//Check if the target languge is one of the watson supported languages
+					//if not then use the google service
+					TranslationService service;
+					if(isTargetOnWatsonList){
+						service = new WatsonTEngine();
+					}else{
+						service = new GoogleTEngine();
+					}
+					executor.submit(service);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 		}
 	}
