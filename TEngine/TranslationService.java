@@ -13,7 +13,7 @@ public class TranslationService implements Runnable {
 	private static TranslationService singleton;
 	
 	//The main task que of the application
-	private BlockingQueue<Message> taskQue = new ArrayBlockingQueue<Message>(100);
+	private BlockingQueue<TranslationRequest> taskQue = new ArrayBlockingQueue<TranslationRequest>(100);
 	
 	//the threadpool
 	ExecutorService executor;
@@ -22,7 +22,7 @@ public class TranslationService implements Runnable {
 		executor = Executors.newFixedThreadPool(TEngine.AMOUNT_OF_THREADS);;
 	}
 	
-	public TranslationService getInstance() {
+	public static TranslationService getInstance() {
 		if(singleton == null){
 			synchronized (TranslationService.class){
 				singleton  = new TranslationService();
@@ -30,12 +30,23 @@ public class TranslationService implements Runnable {
 		}
 		return singleton;
 	}
+	
+	public void sendRequest(TranslationRequest request) throws InterruptedException{
+		taskQue.put(request);
+	};
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while(TEngine.ENGINE_RUNNING) {
 			if(!taskQue.isEmpty()){
+				//Get the request
+				try {
+					TranslationRequest request = taskQue.take();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 		}
