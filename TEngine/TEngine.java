@@ -15,6 +15,7 @@ public class TEngine {
 	
 	//CONFIG
 	final static int AMOUNT_OF_THREADS = 3; //;Amount of threads which handle API calls at the same time
+	static boolean ENGINE_RUNNING;
 	
 	private TEngine() {
 		
@@ -30,11 +31,11 @@ public class TEngine {
 	}
 	
 	public void start() {
-		
+		ENGINE_RUNNING = true;
 	}
 	
 	public void stop() {
-		
+		ENGINE_RUNNING = false;
 	}
 	
 	public void getTranslationRequest(TranslationRequest request) {
