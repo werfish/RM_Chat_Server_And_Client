@@ -213,6 +213,13 @@ public class ClientSession implements Runnable {
 		return true;
 	}
 	
+	//use by the server command or translation service
+	public void sendMessageToUser(Message msg) {
+		if(!(conn == null)){
+			conn.addToQue(msg);
+		}
+	}
+	
 	//THIS was BAD Mmkay
 	private void distribute(Message msg){
 		for(int i = 0; i < this.usersList.size();i++){
