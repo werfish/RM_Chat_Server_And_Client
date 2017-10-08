@@ -12,7 +12,7 @@ public class TEngine {
 	private static TEngine singleton;
 	
 	//The TranslationService instance
-	TranslationService service;
+	TranslationTaskHandler service;
 	Thread serviceThread;
 	
 	//CONFIG
@@ -47,7 +47,7 @@ public class TEngine {
 	
 	public void start() {
 		ENGINE_RUNNING = true;
-		service = TranslationService.getInstance();
+		service = TranslationTaskHandler.getInstance();
 		serviceThread = new Thread(service);
 		serviceThread.start();
 	}
