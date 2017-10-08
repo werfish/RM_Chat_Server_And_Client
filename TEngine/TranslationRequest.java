@@ -11,13 +11,13 @@ public class TranslationRequest {
 	ClientSession originSession;
 	
 	//Langues things
-	String senderLanguage;
+	String sourceLanguage;
 	String targetLanguage;
 	
-	public TranslationRequest(Message message,ClientSession originSession, String senderLanguage, String targetLanguage) {
+	public TranslationRequest(Message message,ClientSession originSession, String sourceLanguage, String targetLanguage) {
 		this.message = message;
 		this.originSession = originSession;
-		this.senderLanguage = senderLanguage;
+		this.sourceLanguage = sourceLanguage;
 		this.targetLanguage = targetLanguage;
 	}
 	
@@ -30,6 +30,10 @@ public class TranslationRequest {
 		
 		return reqList;
 		
+	}
+	
+	public String getTargetLanguage() {
+		return this.targetLanguage;
 	}
 
 }
